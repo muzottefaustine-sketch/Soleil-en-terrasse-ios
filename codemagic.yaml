@@ -9,11 +9,15 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.faustine.soleilterrasse
       xcode: latest
+      vars:
+        XCODE_PROJECT: "Soleil En Terrasse.xcodeproj"
+        XCODE_SCHEME: "Soleil En Terrasse"
+        APPLE_TEAM_ID: "74UG5W2ZY8"
     scripts:
       - name: Build ipa
         script: |
           xcode-project build-ipa \
-            --project "Soleil En Terrasse.xcodeproj" \
-            --scheme "Soleil En Terrasse"
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
     artifacts:
       - build/ios/ipa/*.ipa
