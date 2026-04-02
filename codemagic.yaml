@@ -10,18 +10,13 @@ workflows:
         bundle_identifier: com.faustine.soleilterrasse
       xcode: latest
     scripts:
-      - name: Build iOS
+      - name: Set up code signing
         script: |
-          xcode-project use-profiles
-          xcodebuild -project "Soleil En Terrasse.xcodeproj" \
-            -scheme "Soleil En Terrasse" \
-            -configuration Release \
-            -archivePath ~/exports/Soleil.xcarchive \
-            archive
-      - name: Export IPA
+          xcode-project use-profiles --archive-xcargs "SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
+      - name: Build ipa
         script: |
           xcode-project build-ipa \
-            --project "Soleil En Terrasse.xcodeproj" \
-            --config Release
+            --workspace "Soleil En Terrasse.xcodeproj/project.xcworkspace" \
+            --scheme "Soleil En Terrasse"
     artifacts:
       - build/ios/ipa/*.ipa
