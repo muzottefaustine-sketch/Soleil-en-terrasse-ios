@@ -20,6 +20,7 @@ workflows:
           xcode-project use-profiles
       - name: Build ipa
         script: |
+          xcode-project use-profiles
           xcode-project build-ipa \
             --project "Soleil En Terrasse.xcodeproj" \
             --scheme "Soleil En Terrasse"
