@@ -2,22 +2,21 @@ workflows:
   ios-workflow:
     name: iOS Workflow
     max_build_duration: 60
-    integrations:
-      app_store_connect: Codemagic
     environment:
-      ios_signing:
-        distribution_type: development
-        bundle_identifier: com.faustine.soleilterrasse
-      xcode: latest
       vars:
         XCODE_PROJECT: "Soleil En Terrasse.xcodeproj"
         XCODE_SCHEME: "Soleil En Terrasse"
-        APPLE_TEAM_ID: "74UG5W2ZY8"
+        BUNDLE_ID: "com.faustine.soleilterrasse"
+      groups:
+        - default
+      xcode: latest
     scripts:
+      - name: Set up signing
+        script: |
+          keychain initialize
+          certificate add-certificates --certificate $CM_CERTIFICATE
+          provisioning-profiles add --provisioning-profile $CM_PROVISIONING_PROFILE
       - name: Build ipa
         script: |
-          xcode-project build-ipa \
-            --project "$XCODE_PROJECT" \
-            --scheme "$XCODE_SCHEME"
-    artifacts:
-      - build/ios/ipa/*.ipa
+          xcode-project build-ipa \​​​​​​​​​​​​​​​​
+
