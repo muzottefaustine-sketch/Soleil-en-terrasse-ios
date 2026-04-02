@@ -8,7 +8,7 @@ workflows:
         XCODE_SCHEME: "Soleil En Terrasse"
         BUNDLE_ID: "com.faustine.soleilterrasse"
       groups:
-        - default
+        - DEFAULT
       xcode: latest
     scripts:
       - name: Set up signing
