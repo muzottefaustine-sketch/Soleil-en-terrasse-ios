@@ -6,24 +6,22 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.faustine.soleilterrasse
-      vars:
-        XCODE_PROJECT: "Soleil En Terrasse.xcodeproj"
-        XCODE_SCHEME: "Soleil En Terrasse"
       xcode: latest
+    integrations:
+      app_store_connect: Codemagic
     scripts:
       - name: Build iOS
         script: |
           xcode-project use-profiles
-          xcodebuild -project "$XCODE_PROJECT" \
-            -scheme "$XCODE_SCHEME" \
+          xcodebuild -project "Soleil En Terrasse.xcodeproj" \
+            -scheme "Soleil En Terrasse" \
             -configuration Release \
             -archivePath ~/exports/Soleil.xcarchive \
             archive
       - name: Export IPA
         script: |
           xcode-project build-ipa \
-            --project "$XCODE_PROJECT" \
+            --project "Soleil En Terrasse.xcodeproj" \
             --config Release
     artifacts:
       - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
