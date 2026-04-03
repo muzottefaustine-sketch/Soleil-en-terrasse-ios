@@ -15,15 +15,14 @@ workflows:
           app-store-connect fetch-signing-files \
             com.faustine.soleilterrasse \
             --type IOS_APP_STORE \
+            --team-id 74UG5W2ZY8 \
             --create
           keychain add-certificates
           xcode-project use-profiles
       - name: Build ipa
         script: |
-          xcode-project use-profiles
           xcode-project build-ipa \
             --project "Soleil En Terrasse.xcodeproj" \
-            --scheme "Soleil En Terrasse" \
-            --team-id 74UG5W2ZY8
+            --scheme "Soleil En Terrasse"
     artifacts:
       - build/ios/ipa/*.ipa
