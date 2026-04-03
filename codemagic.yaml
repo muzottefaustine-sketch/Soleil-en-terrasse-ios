@@ -12,11 +12,11 @@ workflows:
       - name: Set up signing
         script: |
           keychain initialize
+          keychain add-certificates --certificate $CM_CERTIFICATE --certificate-password $CM_CERTIFICATE_PASSWORD
           app-store-connect fetch-signing-files \
             com.faustine.soleilterrasse \
             --type IOS_APP_STORE \
             --create
-          keychain add-certificates
           xcode-project use-profiles
       - name: Build ipa
         script: |
