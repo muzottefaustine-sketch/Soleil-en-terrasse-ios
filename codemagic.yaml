@@ -23,6 +23,7 @@ workflows:
           xcode-project use-profiles
           xcode-project build-ipa \
             --project "Soleil En Terrasse.xcodeproj" \
-            --scheme "Soleil En Terrasse"
+            --scheme "Soleil En Terrasse" \
+            --team-id 74UG5W2ZY8
     artifacts:
       - build/ios/ipa/*.ipa
