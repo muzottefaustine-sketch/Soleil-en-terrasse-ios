@@ -5,30 +5,16 @@ workflows:
     integrations:
       app_store_connect: codemagic
     environment:
-      groups:
-        - DEFAULT
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.faustine.soleilterrasse
       xcode: latest
     scripts:
-      - name: Set up signing
-        script: |
-          keychain initialize
-          echo $CM_CERTIFICATE | base64 --decode > /tmp/cert.p12
-          keychain add-certificates --certificate /tmp/cert.p12 --certificate-password $CM_CERTIFICATE_PASSWORD
-          app-store-connect fetch-signing-files \
-            com.faustine.soleilterrasse \
-            --type IOS_APP_STORE \
-            --create
-          xcode-project use-profiles
       - name: Build ipa
         script: |
-          xcodebuild \
-            -project "Soleil En Terrasse.xcodeproj" \
-            -scheme "Soleil En Terrasse" \
-            -configuration Release \
-            -archivePath build/Soleil.xcarchive \
-            CODE_SIGN_STYLE=Manual \
-            PROVISIONING_PROFILE_SPECIFIER="SoleilAppStore" \
-            DEVELOPMENT_TEAM=74UG5W2ZY8 \
-            archive
+          xcode-project use-profiles
+          xcode-project build-ipa \
+            --project "Soleil En Terrasse.xcodeproj" \
+            --scheme "Soleil En Terrasse"
     artifacts:
-      - build/Soleil.xcarchive
+      - build/ios/ipa/*.ipa
