@@ -20,14 +20,8 @@ workflows:
           xcode-project use-profiles
       - name: Build ipa
         script: |
-          xcodebuild \
-            -project "Soleil En Terrasse.xcodeproj" \
-            -scheme "Soleil En Terrasse" \
-            -configuration Release \
-            -archivePath build/Soleil.xcarchive \
-            CODE_SIGN_STYLE=Manual \
-            PROVISIONING_PROFILE_SPECIFIER="SoleilAppStore" \
-            DEVELOPMENT_TEAM=74UG5W2ZY8 \
-            archive
+          xcode-project build-ipa \
+            --project "Soleil En Terrasse.xcodeproj" \
+            --scheme "Soleil En Terrasse"
     artifacts:
-      - build/Soleil.xcarchive
+      - build/ios/ipa/*.ipa
