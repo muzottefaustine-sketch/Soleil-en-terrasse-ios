@@ -23,4 +23,4 @@ script: |
 agvtool new-version -all 2
 xcode-project build-ipa –project “Soleil En Terrasse.xcodeproj” –scheme “Soleil En Terrasse”
 artifacts:
-- build/ios/ipa/*.ipa
+- build/ios/ipa/*.ipa​​​​​​​​​​​​​​​​
