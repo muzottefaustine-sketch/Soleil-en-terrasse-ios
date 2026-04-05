@@ -70,4 +70,49 @@ struct OfflineView: View {
     var body: some View {
         VStack(spacing: 24) {
             Image(systemName: "wifi.slash")
-                .​​​​​​​​​​​​​​​​
+                .font(.system(size: 60))
+                .foregroundColor(.orange)
+            Text("Pas de connexion")
+                .font(.title2).fontWeight(.bold)
+            Text("Connecte-toi à Internet pour trouver les terrasses au soleil ☀️")
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+                .padding(.horizontal, 32)
+            Button(action: onRetry) {
+                HStack {
+                    Image(systemName: "arrow.clockwise")
+                    Text("Réessayer")
+                }
+                .padding(.horizontal, 32).padding(.vertical, 14)
+                .background(Color.orange).foregroundColor(.white)
+                .cornerRadius(14)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemBackground))
+    }
+}
+
+struct ContentView: View {
+    let appURL = URL(string: "https://soleil-bordeaux.vercel.app")!
+    @State private var isOffline = false
+    @State private var webViewID = UUID()
+    @StateObject private var locationManager = LocationManager()
+
+    var body: some View {
+        ZStack {
+            if isOffline {
+                OfflineView {
+                    isOffline = false
+                    webViewID = UUID()
+                }
+            } else {
+                WebView(url: appURL, isOffline: $isOffline, locationManager: locationManager)
+                    .id(webViewID)
+                    .ignoresSafeArea()
+            }
+        }
+    }
+}
+
+#Preview { ContentView() }
