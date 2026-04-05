@@ -1,26 +1,28 @@
-workflows:
-ios-workflow:
-name: iOS Workflow
-max_build_duration: 60
-integrations:
-app_store_connect: codemagic
-environment:
-groups:
-- DEFAULT
-xcode: latest
-scripts:
-- name: Set up signing
-script: |
-keychain initialize
-echo $CM_CERTIFICATE | base64 –decode > /tmp/cert.p12
-keychain add-certificates –certificate /tmp/cert.p12 –certificate-password $CM_CERTIFICATE_PASSWORD
-echo $CM_PROVISIONING_PROFILE | base64 –decode > /tmp/profile.mobileprovision
-mkdir -p “$HOME/Library/MobileDevice/Provisioning Profiles”
-cp /tmp/profile.mobileprovision “$HOME/Library/MobileDevice/Provisioning Profiles/”
-xcode-project use-profiles
-- name: Build ipa
-script: |
-agvtool new-version -all 2
-xcode-project build-ipa –project “Soleil En Terrasse.xcodeproj” –scheme “Soleil En Terrasse”
-artifacts:
-- build/ios/ipa/*.ipa​​​​​​​​​​​​​​​​
+​​​​​​​workflows:
+  ios-workflow:
+    name: iOS Workflow
+    max_build_duration: 60
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      groups:
+        - DEFAULT
+      xcode: latest
+    scripts:
+      - name: Set up signing
+        script: |
+          keychain initialize
+          echo $CM_CERTIFICATE | base64 --decode > /tmp/cert.p12
+          keychain add-certificates --certificate /tmp/cert.p12 --certificate-password $CM_CERTIFICATE_PASSWORD
+          echo $CM_PROVISIONING_PROFILE | base64 --decode > /tmp/profile.mobileprovision
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp /tmp/profile.mobileprovision "$HOME/Library/MobileDevice/Provisioning Profiles/"
+          xcode-project use-profiles
+      - name: Build ipa
+        script: |
+          agvtool new-version -all 2
+          xcode-project build-ipa \
+            --project "Soleil En Terrasse.xcodeproj" \
+            --scheme "Soleil En Terrasse"
+    artifacts:
+      - build/ios/ipa/*.ipa
