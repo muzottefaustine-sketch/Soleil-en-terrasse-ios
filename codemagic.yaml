@@ -20,7 +20,8 @@ workflows:
           xcode-project use-profiles
       - name: Build ipa
         script: |
-          agvtool new-version -all 2
+          # Numéro de construction unique à chaque build (Apple refuse un numéro déjà envoyé).
+          agvtool new-version -all $((BUILD_NUMBER + 10))
           xcode-project build-ipa \
             --project "Soleil En Terrasse.xcodeproj" \
             --scheme "Soleil En Terrasse"
