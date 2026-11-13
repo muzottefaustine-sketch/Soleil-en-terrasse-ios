@@ -27,3 +27,10 @@ workflows:
             --scheme "Soleil En Terrasse"
     artifacts:
       - build/ios/ipa/*.ipa
+    publishing:
+      # Envoie le fichier .ipa sur App Store Connect avec la connexion « codemagic ».
+      # La mise en vérification reste manuelle, sur appstoreconnect.apple.com.
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false
+        submit_to_app_store: false
