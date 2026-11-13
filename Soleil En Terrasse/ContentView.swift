@@ -52,6 +52,22 @@ struct WebView: UIViewRepresentable {
         var webView: WKWebView?
         init(_ parent: WebView) { self.parent = parent }
 
+        // Liens qui ne sont pas des pages web. Sans la méthode ci-dessous, iOS les
+        // ignore en silence : le bouton « Appeler » du site ne faisait donc rien.
+        private static let systemSchemes: Set<String> = ["tel", "telprompt", "sms", "mailto", "facetime", "facetime-audio"]
+
+        // Appelée avant chaque navigation : les numéros, SMS et e-mails sont confiés
+        // au système (Téléphone, Messages, Mail) ; tout le reste se charge comme avant.
+        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
+            if let url = navigationAction.request.url,
+               let scheme = url.scheme?.lowercased(),
+               Coordinator.systemSchemes.contains(scheme) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                return .cancel
+            }
+            return .allow
+        }
+
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
             let nsError = error as NSError
             if nsError.code == NSURLErrorNotConnectedToInternet || nsError.code == NSURLErrorNetworkConnectionLost {
