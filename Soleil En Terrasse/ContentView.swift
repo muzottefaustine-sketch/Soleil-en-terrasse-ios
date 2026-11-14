@@ -30,6 +30,8 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
+        // Signale au site que cette version de l'appli sait lancer les appels.
+        config.applicationNameForUserAgent = "Mobile/15E148 SoleilEnTerrasse/1.0.1"
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.navigationDelegate = context.coordinator
         wv.scrollView.isScrollEnabled = false
